@@ -44,6 +44,9 @@ public class BigCompanyFileProcessor implements FileProcessor {
     }
 
     private void validate(String path) {
-        //To do
+        File file = new File(path);
+        if (!file.exists()) {
+            throw new IllegalArgumentException("File does not exist: " + path);
+        }
     }
 }
