@@ -4,6 +4,7 @@ import domain.Employee;
 import service.EmployeeService;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,8 +54,8 @@ public class BigCompanyEmployeeService implements EmployeeService {
         Map<Employee,BigDecimal> managerPercentage = new HashMap<>();
         for (Map.Entry<Employee,List<Employee>> entry: managerEmpMap.entrySet()){
             BigDecimal sum = entry.getValue().stream().map(e -> e.getSalary()).reduce(BigDecimal.ZERO, BigDecimal::add);
-            BigDecimal avg = sum.divide(BigDecimal.valueOf(entry.getValue().size()));
-            BigDecimal percentage = entry.getKey().getSalary().divide(avg).multiply(new BigDecimal(100));
+            BigDecimal avg = sum.divide(BigDecimal.valueOf(entry.getValue().size()),5, RoundingMode.HALF_UP);
+            BigDecimal percentage = entry.getKey().getSalary().divide(avg,5, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
             managerPercentage.put(entry.getKey(),percentage);
         }
         return managerPercentage;

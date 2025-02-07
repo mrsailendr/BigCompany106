@@ -26,7 +26,7 @@ public class BigCompanyFileProcessor implements FileProcessor {
                 for (int i = 1; i < lines.size(); i++) {
                     String line = lines.get(i);
                     String[] cells = line.split(",");
-                    Employee e = new Employee(Integer.parseInt(cells[0]),cells[1],cells[2],new BigDecimal(cells[3]),fetchManagerId(cells[4]));
+                    Employee e = new Employee(Integer.parseInt(cells[0]),cells[1],cells[2],new BigDecimal(cells[3]),fetchManagerId(cells));
                     employees.add(e);
                 }
             }
@@ -36,9 +36,10 @@ public class BigCompanyFileProcessor implements FileProcessor {
         return employees;
     }
 
-    private Integer fetchManagerId(String cell) {
-        if(cell!=null )
-            return Integer.valueOf(cell);
+    private Integer fetchManagerId(String[] cells) {
+        if(cells.length>4 && cells[4]!=null) {
+            return Integer.valueOf(cells[4]);
+        }
         return null;
     }
 
